@@ -52,6 +52,22 @@
         }
         .nav-link:hover { color: #15803d; }
 
+        #navbar {
+            transition: box-shadow 240ms ease, background-color 240ms ease;
+        }
+        #navbar.nav-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+        }
+
+        .brand-logo {
+            transition: transform 240ms ease, box-shadow 240ms ease;
+        }
+        .brand-link:hover .brand-logo {
+            transform: rotate(-3deg) scale(1.06);
+            box-shadow: 0 12px 25px rgba(21, 128, 61, 0.18);
+        }
+
         .btn-primary {
             min-height: 48px;
             display: inline-flex;
@@ -68,6 +84,16 @@
         .btn-primary:hover {
             background: #166534;
             transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(21, 128, 61, 0.36);
+        }
+        .btn-primary:active { transform: translateY(0) scale(0.98); }
+
+        .btn-outline {
+            transition: transform 180ms ease, background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+        }
+        .btn-outline:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 255, 255, 0.16);
         }
 
         .hero-section {
@@ -77,6 +103,52 @@
                 url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.18), transparent 34%);
+            animation: hero-glow 7s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        .hero-logo {
+            animation: float-soft 4.5s ease-in-out infinite;
+            box-shadow: 0 22px 55px rgba(0, 0, 0, 0.24);
+        }
+        .hero-title {
+            animation: reveal-up 780ms ease both;
+        }
+        .hero-copy {
+            animation: reveal-up 780ms ease 120ms both;
+        }
+        .hero-actions {
+            animation: reveal-up 780ms ease 220ms both;
+        }
+        .stat-card, .feature-card {
+            transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+        }
+        .feature-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(21, 128, 61, 0.22);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
+        }
+        .feature-card:hover .feature-icon {
+            animation: icon-pop 480ms ease;
+        }
+        .image-lift {
+            transition: transform 280ms ease, box-shadow 280ms ease, filter 280ms ease;
+        }
+        .image-lift:hover {
+            transform: translateY(-6px) scale(1.02);
+            filter: saturate(1.08);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
         }
 
         .floating-whatsapp {
@@ -116,7 +188,43 @@
             background: rgba(0, 0, 0, 0.72);
             backdrop-filter: blur(4px);
         }
-        #success-modal.active { display: flex; }
+        #success-modal.active { display: flex; animation: modal-fade 220ms ease both; }
+        #success-modal.active .modal-panel { animation: modal-pop 260ms ease both; }
+
+        @keyframes hero-glow {
+            from { opacity: 0.45; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.08); }
+        }
+        @keyframes float-soft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes reveal-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes icon-pop {
+            0% { transform: scale(1) rotate(0); }
+            45% { transform: scale(1.15) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        @keyframes modal-fade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes modal-pop {
+            from { opacity: 0; transform: translateY(18px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 
@@ -126,9 +234,9 @@
     <nav class="fixed top-0 left-0 w-full z-40 bg-white/95 backdrop-blur-md border-b border-gray-100" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <button type="button" class="flex items-center gap-3 text-left" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                <button type="button" class="brand-link flex items-center gap-3 text-left" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
                     <!-- LOGO AGREGADO AQUÍ -->
-                    <img src="imagenes/logo.jpg" alt="Logo Agroveterinaria El Novillo" class="w-12 h-12 object-contain rounded-xl shadow-sm">
+                    <img src="imagenes/Logo.jpg" alt="Logo Agroveterinaria El Novillo" class="brand-logo w-12 h-12 object-contain rounded-xl shadow-sm">
                     <div class="leading-none">
                         <span class="font-heading font-black text-xl text-ink block">Agroveterinaria</span>
                         <span class="text-primary font-bold text-sm tracking-wide">EL NOVILLO</span>
@@ -173,46 +281,48 @@
 
         <!-- HERO SECTION -->
         <section id="inicio" class="hero-section relative flex items-center justify-center py-24 text-center text-white">
-            <div class="max-w-4xl mx-auto px-4 w-full">
+            <div class="relative z-10 max-w-4xl mx-auto px-4 w-full">
+                <img src="imagenes/Logo.jpg" alt="Logo Agroveterinaria El Novillo" class="hero-logo w-24 h-24 sm:w-28 sm:h-28 object-contain rounded-2xl bg-white/95 p-2 mx-auto mb-7" data-aos="zoom-in">
+
                 <p class="inline-flex items-center gap-2 bg-primary text-white rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-6" data-aos="fade-down">
                     <i class="fa-solid fa-truck-fast"></i> ¡Contamos con Servicio Delivery!
                 </p>
 
-                <h1 class="text-4xl sm:text-6xl font-black leading-tight mb-6" data-aos="fade-up">
+                <h1 class="hero-title text-4xl sm:text-6xl font-black leading-tight mb-6">
                     Todo para tu Finca, Cultivos y Mascotas
                 </h1>
 
-                <p class="text-lg sm:text-xl text-gray-100 max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="100">
+                <p class="hero-copy text-lg sm:text-xl text-gray-100 max-w-2xl mx-auto mb-10">
                     En Agroveterinaria El Novillo te ofrecemos insumos agrícolas de calidad y atención veterinaria profesional directamente en Juigalpa.
                 </p>
 
-                <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="180">
+                <div class="hero-actions flex flex-col sm:flex-row justify-center gap-4">
                     <a href="https://wa.me/50582190602" target="_blank" rel="noopener" class="btn-primary px-8 py-4 text-base">
                         <i class="fa-brands fa-whatsapp"></i> Hacer Pedido por WhatsApp
                     </a>
-                    <a href="#productos" class="inline-flex items-center justify-center border-2 border-white text-white rounded-full px-8 py-4 font-bold transition hover:bg-white hover:text-ink">
+                    <a href="#productos" class="btn-outline inline-flex items-center justify-center border-2 border-white text-white rounded-full px-8 py-4 font-bold hover:bg-white hover:text-ink">
                         Ver Catálogo
                     </a>
                 </div>
 
                 <!-- STATS RÁPIDOS -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mt-16 text-left" data-aos="fade-up" data-aos-delay="250">
-                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                    <div class="stat-card bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
                         <i class="fa-solid fa-users text-primary text-xl mb-1"></i>
                         <p class="text-2xl font-black">+500</p>
                         <p class="text-xs text-gray-300">Clientes Satisfechos</p>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                    <div class="stat-card bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
                         <i class="fa-solid fa-seedling text-primary text-xl mb-1"></i>
                         <p class="text-2xl font-black">100%</p>
                         <p class="text-xs text-gray-300">Garantía Agrícola</p>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                    <div class="stat-card bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
                         <i class="fa-solid fa-stethoscope text-primary text-xl mb-1"></i>
                         <p class="text-2xl font-black">Prof.</p>
                         <p class="text-xs text-gray-300">Salud Animal</p>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                    <div class="stat-card bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10">
                         <i class="fa-solid fa-location-dot text-primary text-xl mb-1"></i>
                         <p class="text-2xl font-black">Juigalpa</p>
                         <p class="text-xs text-gray-300">Ubicación Central</p>
@@ -232,32 +342,32 @@
 
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- Producto 1 -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition" data-aos="fade-up">
-                        <div class="w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
+                    <div class="feature-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm" data-aos="fade-up">
+                        <div class="feature-icon w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
                             <i class="fa-solid fa-wheat-awn"></i>
                         </div>
                         <h3 class="font-bold text-xl text-ink mb-2">Urea y Fertilizantes</h3>
                         <p class="text-muted text-sm mb-4">Abonos e insumos de nutrición vegetal para todo tipo de cultivos de la zona.</p>
                     </div>
                     <!-- Producto 2 -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition" data-aos="fade-up" data-aos-delay="100">
-                        <div class="w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
+                    <div class="feature-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
                             <i class="fa-solid fa-shuttle-space rotate-90"></i>
                         </div>
                         <h3 class="font-bold text-xl text-ink mb-2">Bombas de Fumigar</h3>
                         <p class="text-muted text-sm mb-4">Bombas manuales y de motor de alta resistencia para aspersión efectiva.</p>
                     </div>
                     <!-- Producto 3 -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition" data-aos="fade-up" data-aos-delay="200">
-                        <div class="w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
+                    <div class="feature-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
                             <i class="fa-solid fa-flask"></i>
                         </div>
                         <h3 class="font-bold text-xl text-ink mb-2">Agroquímicos</h3>
                         <p class="text-muted text-sm mb-4">Herbicidas, insecticidas y fungicidas para el control integral de plagas.</p>
                     </div>
                     <!-- Producto 4 -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition" data-aos="fade-up" data-aos-delay="300">
-                        <div class="w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
+                    <div class="feature-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon w-12 h-12 rounded-xl bg-green-50 text-primary flex items-center justify-center text-2xl mb-4">
                             <i class="fa-solid fa-screwdriver-wrench"></i>
                         </div>
                         <h3 class="font-bold text-xl text-ink mb-2">Herramientas y Accesorios</h3>
